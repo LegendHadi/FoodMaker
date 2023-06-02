@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'constants.dart';
 import 'models/recipe.dart';
 import 'shared.dart';
 
 class Detail extends StatefulWidget {
-  const Detail({required this.recipe,required this.favoriteIds, Key? key}) : super(key: key);
+  const Detail({required this.recipe, required this.favoriteIds, Key? key})
+      : super(key: key);
 
   final Recipe recipe;
   final List<int> favoriteIds;
@@ -20,13 +22,12 @@ class _DetailState extends State<Detail> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -37,9 +38,10 @@ class _DetailState extends State<Detail> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  if(widget.favoriteIds.any((favoriteId) => favoriteId == widget.recipe.id)){
+                  if (widget.favoriteIds
+                      .any((favoriteId) => favoriteId == widget.recipe.id)) {
                     widget.favoriteIds.remove(widget.recipe.id);
-                  }else {
+                  } else {
                     widget.favoriteIds.add(widget.recipe.id);
                   }
                 });
@@ -48,19 +50,22 @@ class _DetailState extends State<Detail> {
                 widget.favoriteIds.any((element) => element == widget.recipe.id)
                     ? Icons.favorite_rounded
                     : Icons.favorite_border,
-                color: widget.favoriteIds.any((element) => element == widget.recipe.id)? Colors.red : Colors.black,
+                color: widget.favoriteIds
+                        .any((element) => element == widget.recipe.id)
+                    ? Colors.red
+                    : Colors.black,
               ),
             ),
           ),
-        ],
+        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,10 +74,12 @@ class _DetailState extends State<Detail> {
                 ],
               ),
             ),
-            SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             Container(
               height: 310,
-              padding: EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 16),
               child: Stack(
                 children: [
                   Column(
@@ -80,12 +87,21 @@ class _DetailState extends State<Detail> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       buildTextTitleVariation2('Nutritions', false),
-                      SizedBox(height: 16,),
-                      buildNutrition(widget.recipe.nutrition.calorie, 'Calories', 'Kcal'),
-                      SizedBox(height: 16,),
-                      buildNutrition(widget.recipe.nutrition.carbo, 'Carbo', 'g'),
-                      SizedBox(height: 16,),
-                      buildNutrition(widget.recipe.nutrition.protein, 'Protein', 'g'),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      buildNutrition(
+                          widget.recipe.nutrition.calorie, 'Calories', 'Kcal'),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      buildNutrition(
+                          widget.recipe.nutrition.carbo, 'Carbo', 'g'),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      buildNutrition(
+                          widget.recipe.nutrition.protein, 'Protein', 'g'),
                     ],
                   ),
                   Positioned(
@@ -96,11 +112,11 @@ class _DetailState extends State<Detail> {
                         height: 310,
                         width: 310,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/image/${widget.recipe.media.image}'),
-                            fit: BoxFit.fitHeight,
-                          )
-                        ),
+                            image: DecorationImage(
+                          image: AssetImage(
+                              'assets/image/${widget.recipe.media.image}'),
+                          fit: BoxFit.fitHeight,
+                        )),
                       ),
                     ),
                   ),
@@ -108,20 +124,22 @@ class _DetailState extends State<Detail> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 80),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 80),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildTextTitleVariation2('Ingredients', false),
-
-                  ...widget.recipe.ingredients.map((ingredient) => buildTextSubTitleVariation1('${ingredient.amount.toString().replaceAll(regexToRemoveZeroDecimal, '')} ${ingredient.unit  ?? ''} ${ingredient.title}')).toList(),
-
-                  SizedBox(height: 16,),
-
+                  ...widget.recipe.ingredients
+                      .map((ingredient) => buildTextSubTitleVariation1(
+                          '${ingredient.amount.toString().replaceAll(regexToRemoveZeroDecimal, '')} ${ingredient.unit ?? ''} ${ingredient.title}'))
+                      .toList(),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   buildTextTitleVariation2('Recipe preparation', false),
-
-                  ...widget.recipe.instructions.map((instruction) => buildTextSubTitleVariation1(instruction),)
-
+                  ...widget.recipe.instructions.map(
+                    (instruction) => buildTextSubTitleVariation1(instruction),
+                  )
                 ],
               ),
             ),
@@ -132,12 +150,12 @@ class _DetailState extends State<Detail> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         backgroundColor: kPrimaryColor,
-        icon: Icon(
+        icon: const Icon(
           Icons.play_circle_fill,
           size: 32,
           color: Colors.white,
         ),
-        label: Text(
+        label: const Text(
           'Watch video',
           style: TextStyle(
             color: Colors.white,
@@ -149,14 +167,14 @@ class _DetailState extends State<Detail> {
     );
   }
 
-  Widget buildNutrition (double value, String title, String subtitle) {
+  Widget buildNutrition(double value, String title, String subtitle) {
     return Container(
       height: 60,
       width: 150,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.grey[50],
-        borderRadius: BorderRadius.all(Radius.circular(50)),
+        borderRadius: const BorderRadius.all(Radius.circular(50)),
         boxShadow: [kBoxShadow],
       ),
       child: Row(
@@ -171,22 +189,24 @@ class _DetailState extends State<Detail> {
             ),
             child: Center(
               child: Text(
-                  value.toString().replaceAll(regexToRemoveZeroDecimal, ''),
-                style: TextStyle(
+                value.toString().replaceAll(regexToRemoveZeroDecimal, ''),
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          SizedBox(width: 20,),
+          const SizedBox(
+            width: 20,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),

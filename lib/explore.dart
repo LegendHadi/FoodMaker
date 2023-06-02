@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodager/constants.dart';
 import 'package:foodager/shared.dart';
 import 'data.dart';
@@ -25,47 +26,46 @@ class _ExploreState extends State<Explore> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        brightness: Brightness.light,
         elevation: 0,
-        leading: Icon(
+        leading: const Icon(
           Icons.sort,
           color: Colors.black,
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
+            padding: EdgeInsets.only(right: 16),
             child: Icon(
               Icons.search,
               color: Colors.black,
             ),
           ),
-        ],
+        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
         // systemOverlayStyle: SystemUiOverlayStyle(),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildTextTitleVariation1('Springy Salads'),
                   buildTextSubTitleVariation1(
                       'Healthy and nutritious food recipes'),
-                  SizedBox(
+                  const SizedBox(
                     height: 32,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       option('Vegetable', 'assets/icon/salad.png', 0),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       option('Rice', 'assets/icon/rice.png', 1),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       option('Fruit', 'assets/icon/fruit.png', 2),
@@ -74,28 +74,28 @@ class _ExploreState extends State<Explore> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Container(
               height: 350,
               // color: Colors.blue,
               child: ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 children: buildRecipes(),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             if (favoriteRecipeIds.isNotEmpty)
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   children: [
                     buildTextTitleVariation2('Popular', false),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     buildTextTitleVariation2('Food', true),
@@ -106,7 +106,7 @@ class _ExploreState extends State<Explore> {
               Container(
                 height: 190,
                 child: PageView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: buildPopulars(),
                 ),
               ),
@@ -127,10 +127,10 @@ class _ExploreState extends State<Explore> {
         height: 40,
         decoration: BoxDecoration(
           color: optionSelected[index] ? kPrimaryColor : Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [kBoxShadow],
         ),
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
             SizedBox(
@@ -141,7 +141,7 @@ class _ExploreState extends State<Explore> {
                 color: optionSelected[index] ? Colors.white : Colors.black,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Text(
@@ -168,7 +168,7 @@ class _ExploreState extends State<Explore> {
 
   Widget buildRecipe(Recipe recipe, int index) {
     return GestureDetector(
-      onTap: () async{
+      onTap: () async {
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -178,18 +178,17 @@ class _ExploreState extends State<Explore> {
             ),
           ),
         );
-        setState(() {
-        });
+        setState(() {});
       },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [kBoxShadow],
         ),
         margin: EdgeInsets.only(
             right: 16, left: index == 0 ? 16 : 0, bottom: 16, top: 8),
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         width: 220,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -207,7 +206,7 @@ class _ExploreState extends State<Explore> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             buildRecipeTitle(recipe.title),
@@ -282,7 +281,7 @@ class _ExploreState extends State<Explore> {
 
   Widget buildPopular(Recipe recipe) {
     return GestureDetector(
-      onTap: () async{
+      onTap: () async {
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -292,15 +291,13 @@ class _ExploreState extends State<Explore> {
             ),
           ),
         );
-        setState(() {
-
-        });
+        setState(() {});
       },
       child: Container(
-        margin: EdgeInsets.all(16),
+        margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [kBoxShadow],
         ),
         child: Row(
