@@ -39,7 +39,8 @@ class _ExploreState extends State<Explore> {
               color: Colors.black,
             ),
           ),
-        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ],
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         // systemOverlayStyle: SystemUiOverlayStyle(),
       ),
       body: SingleChildScrollView(
@@ -77,9 +78,8 @@ class _ExploreState extends State<Explore> {
             const SizedBox(
               height: 24,
             ),
-            Container(
+            SizedBox(
               height: 350,
-              // color: Colors.blue,
               child: ListView(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
@@ -103,7 +103,7 @@ class _ExploreState extends State<Explore> {
                 ),
               ),
             if (favoriteRecipeIds.isNotEmpty)
-              Container(
+              SizedBox(
                 height: 190,
                 child: PageView(
                   physics: const BouncingScrollPhysics(),

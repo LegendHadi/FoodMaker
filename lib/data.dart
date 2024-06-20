@@ -1,15 +1,3 @@
-// class Recipe {
-//    late String title;
-//    late String description;
-//    late String image;
-//    late int calories;
-//    late int carbo;
-//    late int protein;
-//
-//    Recipe (this.title, this.description, this.image, this.calories, this.carbo, this.protein);
-// }
-
-import 'package:foodager/models/food-category.dart';
 import 'package:foodager/models/ingredient.dart';
 import 'package:foodager/models/media.dart';
 import 'package:foodager/models/nutrition.dart';
@@ -70,12 +58,9 @@ List<Recipe> getRecipes() {
         protein: 6,
       ),
       instructions: [
-        'Step1\n' +
-            'In a medium bowl, mix all the marinade ingredients with some seasoning. Chop the chicken into bite-sized pieces and toss with the marinade. Cover and chill in the fridge for 1 hr or overnight.',
-        'Step2\n' +
-            'In a large, heavy saucepan, heat the oil. add the onion, garlic, green chilli, ginger and some seasoning. Fry on a medium heat for 10 mins or until soft.',
-        'Step3\n' +
-            'Add the spices with the tomato puree, cook for a further 2 mins until fragrant, then add the stock and marinated chicken. Cook for 15 mins, then add any remaining marinade left in the bowl. Simmer for 5 mins, then sprinkle with the toasted almonds. Serv with rice, naan bread, chutney, coriander and lime wedges, if you like.',
+        'Step1\n In a medium bowl, mix all the marinade ingredients with some seasoning. Chop the chicken into bite-sized pieces and toss with the marinade. Cover and chill in the fridge for 1 hr or overnight.',
+        'Step2\n In a large, heavy saucepan, heat the oil. add the onion, garlic, green chilli, ginger and some seasoning. Fry on a medium heat for 10 mins or until soft.',
+        'Step3\n Add the spices with the tomato puree, cook for a further 2 mins until fragrant, then add the stock and marinated chicken. Cook for 15 mins, then add any remaining marinade left in the bowl. Simmer for 5 mins, then sprinkle with the toasted almonds. Serv with rice, naan bread, chutney, coriander and lime wedges, if you like.',
       ],
     ),
     Recipe(
@@ -110,9 +95,9 @@ List<Recipe> getRecipes() {
       ],
       nutrition: Nutrition(id: 2222222, calorie: 200, carbo: 45, protein: 10),
       instructions: [
-        'Step1\n' + 'fuyghhfsihojhoipojgyredyghmjuccvimlnhut',
-        'Step2\n' + 'dtrdftyghujkp;,mnbfrxryghimnhftrdtgyuik',
-        'Step3\n' + 'wedrttyvuno,p,mjnhgtryun;omb',
+        'Step1\n fuyghhfsihojhoipojgyredyghmjuccvimlnhut',
+        'Step2\n dtrdftyghujkp;,mnbfrxryghimnhftrdtgyuik',
+        'Step3\n wedrttyvuno,p,mjnhgtryun;omb',
       ],
     ),
     Recipe(
@@ -152,9 +137,9 @@ List<Recipe> getRecipes() {
         protein: 8,
       ),
       instructions: [
-        'Step1\n' + 'faehfjojechifjyrtuoaewjcyhtekciujc',
-        'Step2\n' + 'jafjoijncnbewjicnuhewicnnwabfeoai',
-        'Step3\n' + 'jalfjiehfnadncieoijecnija',
+        'Step1\n faehfjojechifjyrtuoaewjcyhtekciujc',
+        'Step2\n jafjoijncnbewjicnuhewicnnwabfeoai',
+        'Step3\n jalfjiehfnadncieoijecnija',
       ],
     ),
     Recipe(
@@ -199,9 +184,9 @@ List<Recipe> getRecipes() {
         protein: 12,
       ),
       instructions: [
-        'Step1\n' + 'falkjfiurihtejfnvjkfacnfhwe',
-        'Step2\n' + 'lfjaofjkheiutuoiuteihj',
-        'Step3\n' + 'fjaljfiajfklajfeoiajfkljawefijdfa',
+        'Step1\n falkjfiurihtejfnvjkfacnfhwe',
+        'Step2\n lfjaofjkheiutuoiuteihj',
+        'Step3\n fjaljfiajfklajfeoiajfkljawefijdfa',
       ],
     ),
     Recipe(
@@ -216,8 +201,16 @@ List<Recipe> getRecipes() {
           amount: 1,
           unit: 'kg',
         ),
-        Ingredient(id: 5555, title: 'olive oil', amount: 1,),
-        Ingredient(id: 55555, title: 'lemon juice', amount: 1,),
+        Ingredient(
+          id: 5555,
+          title: 'olive oil',
+          amount: 1,
+        ),
+        Ingredient(
+          id: 55555,
+          title: 'lemon juice',
+          amount: 1,
+        ),
       ],
       nutrition: Nutrition(
         id: 555555,
@@ -226,9 +219,9 @@ List<Recipe> getRecipes() {
         protein: 20,
       ),
       instructions: [
-        'Step1\n' + 'fjasdfjijehiutiweutqoijoija',
-        'Step2\n' + 'aiurwiooejakncbegwehebwaij',
-        'Step3\n' + ';falskjoiuerouwifiuheaijf',
+        'Step1\n fjasdfjijehiutiweutqoijoija',
+        'Step2\n aiurwiooejakncbegwehebwaij',
+        'Step3\n ;falskjoiuerouwifiuheaijf',
       ],
     ),
   ];
