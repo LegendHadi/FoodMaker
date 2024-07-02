@@ -12,6 +12,7 @@ class Recipe {
   final Nutrition nutrition; // ارزش غذایی
   final List<String> instructions; // دستورالعمل تهیه
   final FoodCategory? category; //دسته بندی
+  late bool isFavorite;
 
   Recipe({
     required this.id,
@@ -21,6 +22,7 @@ class Recipe {
     required this.ingredients,
     required this.nutrition,
     required this.instructions,
+    this.isFavorite = false,
     // required this.category,
     this.category,
   });

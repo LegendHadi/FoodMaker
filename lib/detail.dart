@@ -5,17 +5,26 @@ import 'models/recipe.dart';
 import 'shared.dart';
 
 class Detail extends StatefulWidget {
-  const Detail({required this.recipe, required this.favoriteIds, Key? key})
-      : super(key: key);
+  const Detail({
+    required this.recipe,
+    Key? key,
+  }) : super(key: key);
 
   final Recipe recipe;
-  final List<int> favoriteIds;
 
   @override
   State<Detail> createState() => _DetailState();
 }
 
 class _DetailState extends State<Detail> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.recipe.isFavorite;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +34,7 @@ class _DetailState extends State<Detail> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pop(context, _isFavorite);
           },
           child: const Icon(
             Icons.arrow_back_ios,
@@ -38,26 +47,29 @@ class _DetailState extends State<Detail> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  if (widget.favoriteIds
-                      .any((favoriteId) => favoriteId == widget.recipe.id)) {
-                    widget.favoriteIds.remove(widget.recipe.id);
-                  } else {
-                    widget.favoriteIds.add(widget.recipe.id);
-                  }
+                  _isFavorite = !_isFavorite;
+                  // if (widget.favoriteIds
+                  //     .any((favoriteId) => favoriteId == widget.recipe.id)) {
+                  //   widget.favoriteIds.remove(widget.recipe.id);
+                  // } else {
+                  //   widget.favoriteIds.add(widget.recipe.id);
+                  // }
                 });
               },
               icon: Icon(
-                widget.favoriteIds.any((element) => element == widget.recipe.id)
+                _isFavorite
+                    // widget.favoriteIds.any((element) => element == widget.recipe.id)
                     ? Icons.favorite_rounded
                     : Icons.favorite_border,
-                color: widget.favoriteIds
-                        .any((element) => element == widget.recipe.id)
+                color: _isFavorite
+                    // widget.favoriteIds.any((element) => element == widget.recipe.id)
                     ? Colors.red
                     : Colors.black,
               ),
             ),
           ),
-        ], systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ],
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

@@ -15,13 +15,18 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   List<bool> optionSelected = [true, false, false];
+  late List<Recipe> _data;
   // List<bool> foodsFavoriteStatus =
   //     List.generate(getRecipes().length, (index) => false);
-  List<int> favoriteRecipeIds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _data = getRecipes();
+  }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('explor ${favoriteRecipeIds.length}');
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -89,7 +94,7 @@ class _ExploreState extends State<Explore> {
             const SizedBox(
               height: 16,
             ),
-            if (favoriteRecipeIds.isNotEmpty)
+            if (_data.any((recipe) => recipe.isFavorite))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -102,7 +107,7 @@ class _ExploreState extends State<Explore> {
                   ],
                 ),
               ),
-            if (favoriteRecipeIds.isNotEmpty)
+            if (_data.any((recipe) => recipe.isFavorite))
               SizedBox(
                 height: 190,
                 child: PageView(
@@ -160,8 +165,8 @@ class _ExploreState extends State<Explore> {
 
   List<Widget> buildRecipes() {
     List<Widget> list = [];
-    for (var i = 0; i < getRecipes().length; i++) {
-      list.add(buildRecipe(getRecipes()[i], i));
+    for (var i = 0; i < _data.length; i++) {
+      list.add(buildRecipe(_data[i], i));
     }
     return list;
   }
@@ -169,16 +174,19 @@ class _ExploreState extends State<Explore> {
   Widget buildRecipe(Recipe recipe, int index) {
     return GestureDetector(
       onTap: () async {
-        await Navigator.push(
+        bool resultFavorite = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Detail(
               recipe: recipe,
-              favoriteIds: favoriteRecipeIds,
             ),
           ),
-        );
-        setState(() {});
+        ) as bool;
+        if (resultFavorite != recipe.isFavorite) {
+          setState(() {
+            recipe.isFavorite = resultFavorite;
+          });
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -222,24 +230,21 @@ class _ExploreState extends State<Explore> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      if (favoriteRecipeIds
-                          .any((favoriteId) => favoriteId == recipe.id)) {
-                        favoriteRecipeIds.remove(recipe.id);
-                      } else {
-                        favoriteRecipeIds.add(recipe.id);
-                      }
+                      recipe.isFavorite = !recipe.isFavorite;
+                      // if (recipe.isFavorite) {
+                      //   recipe.isFavorite = false;
+                      // } else {
+                      //   recipe.isFavorite = true;
+                      // }
                       // foodsFavoriteStatus[index] = !foodsFavoriteStatus[index];
                     });
                   },
                   icon: Icon(
-                    favoriteRecipeIds.any((element) => element == recipe.id)
+                    recipe.isFavorite
                         // foodsFavoriteStatus[index]
                         ? Icons.favorite_rounded
                         : Icons.favorite_border,
-                    color:
-                        favoriteRecipeIds.any((element) => element == recipe.id)
-                            ? Colors.red
-                            : null,
+                    color: recipe.isFavorite ? Colors.red : null,
                     // foodsFavoriteStatus[index] ? Colors.red : null,
                   ),
                 ),
@@ -252,12 +257,10 @@ class _ExploreState extends State<Explore> {
   }
 
   List<Widget> buildPopulars() {
-    List<Widget> list = [];
-    for (var i = 0; i < favoriteRecipeIds.length; i++) {
-      final favoriteRecipe = getRecipes()
-          .firstWhere((recipe) => recipe.id == favoriteRecipeIds[i]);
-      list.add(buildPopular(favoriteRecipe));
-    }
+    final favoriteRecipe = _data.where((recipe) => recipe.isFavorite).toList();
+    final list =
+        favoriteRecipe.map((favorite) => buildPopular(favorite)).toList();
+
     // if(favoriteRecipeIds.isEmpty){
     //   list.add(Container(
     //     margin: EdgeInsets.all(16),
@@ -282,16 +285,19 @@ class _ExploreState extends State<Explore> {
   Widget buildPopular(Recipe recipe) {
     return GestureDetector(
       onTap: () async {
-        await Navigator.push(
+        bool resultFavorite = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Detail(
               recipe: recipe,
-              favoriteIds: favoriteRecipeIds,
             ),
           ),
-        );
-        setState(() {});
+        ) as bool;
+        if (resultFavorite != recipe.isFavorite) {
+          setState(() {
+            recipe.isFavorite = resultFavorite;
+          });
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(16),
@@ -333,7 +339,7 @@ class _ExploreState extends State<Explore> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              favoriteRecipeIds.remove(recipe.id);
+                              recipe.isFavorite = !recipe.isFavorite;
                             });
                           },
                           icon: const Icon(
