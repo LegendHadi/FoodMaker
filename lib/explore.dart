@@ -16,8 +16,7 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   List<bool> optionSelected = [true, false, false];
   late List<Recipe> _data;
-  // List<bool> foodsFavoriteStatus =
-  //     List.generate(getRecipes().length, (index) => false);
+  late List<Recipe> favoriteFood;
 
   @override
   void initState() {
@@ -27,27 +26,10 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
+    favoriteFood = _data.where((recipe) => recipe.isFavorite).toList();
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: const Icon(
-          Icons.sort,
-          color: Colors.black,
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-          ),
-        ],
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        // systemOverlayStyle: SystemUiOverlayStyle(),
-      ),
+      appBar: _buildAppbar(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -63,20 +45,7 @@ class _ExploreState extends State<Explore> {
                   const SizedBox(
                     height: 32,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      option('Vegetable', 'assets/icon/salad.png', 0),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      option('Rice', 'assets/icon/rice.png', 1),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      option('Fruit', 'assets/icon/fruit.png', 2),
-                    ],
-                  ),
+                  _buildCategory(),
                 ],
               ),
             ),
@@ -85,36 +54,20 @@ class _ExploreState extends State<Explore> {
             ),
             SizedBox(
               height: 350,
-              child: ListView(
+              child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: buildRecipes(),
+                // children: showFood(),
+                itemCount: _data.length,
+                itemBuilder: (context, index) {
+                  return buildFood(_data[index], index == 0);
+                },
               ),
             ),
             const SizedBox(
               height: 16,
             ),
-            if (_data.any((recipe) => recipe.isFavorite))
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    buildTextTitleVariation2('Popular', false),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    buildTextTitleVariation2('Food', true),
-                  ],
-                ),
-              ),
-            if (_data.any((recipe) => recipe.isFavorite))
-              SizedBox(
-                height: 190,
-                child: PageView(
-                  physics: const BouncingScrollPhysics(),
-                  children: buildPopulars(),
-                ),
-              ),
+            _buildFavorite(),
           ],
         ),
       ),
@@ -163,28 +116,20 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  List<Widget> buildRecipes() {
-    List<Widget> list = [];
-    for (var i = 0; i < _data.length; i++) {
-      list.add(buildRecipe(_data[i], i));
-    }
-    return list;
-  }
-
-  Widget buildRecipe(Recipe recipe, int index) {
+  Widget buildFood(Recipe data, bool isFirst) {
     return GestureDetector(
       onTap: () async {
         bool resultFavorite = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Detail(
-              recipe: recipe,
+              recipe: data,
             ),
           ),
         ) as bool;
-        if (resultFavorite != recipe.isFavorite) {
+        if (resultFavorite != data.isFavorite) {
           setState(() {
-            recipe.isFavorite = resultFavorite;
+            data.isFavorite = resultFavorite;
           });
         }
       },
@@ -195,7 +140,7 @@ class _ExploreState extends State<Explore> {
           boxShadow: [kBoxShadow],
         ),
         margin: EdgeInsets.only(
-            right: 16, left: index == 0 ? 16 : 0, bottom: 16, top: 8),
+            right: 16, left: isFirst ? 16 : 0, bottom: 16, top: 8),
         padding: const EdgeInsets.all(16),
         width: 220,
         child: Column(
@@ -203,11 +148,11 @@ class _ExploreState extends State<Explore> {
           children: [
             Expanded(
               child: Hero(
-                tag: recipe.media.image,
+                tag: data.media.image,
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/image/${recipe.media.image}'),
+                      image: AssetImage('assets/image/${data.media.image}'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -217,12 +162,12 @@ class _ExploreState extends State<Explore> {
             const SizedBox(
               height: 8,
             ),
-            buildRecipeTitle(recipe.title),
-            buildTextSubTitleVariation2(recipe.description),
+            buildRecipeTitle(data.title),
+            buildTextSubTitleVariation2(data.description),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildCalories(recipe.nutrition.calorie
+                buildCalories(data.nutrition.calorie
                         .toString()
                         .replaceAll(regexToRemoveZeroDecimal, '') +
                     'Kcal'),
@@ -230,7 +175,7 @@ class _ExploreState extends State<Explore> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      recipe.isFavorite = !recipe.isFavorite;
+                      data.isFavorite = !data.isFavorite;
                       // if (recipe.isFavorite) {
                       //   recipe.isFavorite = false;
                       // } else {
@@ -240,11 +185,11 @@ class _ExploreState extends State<Explore> {
                     });
                   },
                   icon: Icon(
-                    recipe.isFavorite
+                    data.isFavorite
                         // foodsFavoriteStatus[index]
                         ? Icons.favorite_rounded
                         : Icons.favorite_border,
-                    color: recipe.isFavorite ? Colors.red : null,
+                    color: data.isFavorite ? Colors.red : null,
                     // foodsFavoriteStatus[index] ? Colors.red : null,
                   ),
                 ),
@@ -256,46 +201,20 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  List<Widget> buildPopulars() {
-    final favoriteRecipe = _data.where((recipe) => recipe.isFavorite).toList();
-    final list =
-        favoriteRecipe.map((favorite) => buildPopular(favorite)).toList();
-
-    // if(favoriteRecipeIds.isEmpty){
-    //   list.add(Container(
-    //     margin: EdgeInsets.all(16),
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       borderRadius: BorderRadius.all(Radius.circular(20)),
-    //       boxShadow: [kBoxShadow],
-    //     ),
-    //     child: Center(
-    //         child: Text(
-    //           'No favorite food',
-    //           style: TextStyle(
-    //             fontSize: 40,
-    //           ),
-    //         ),
-    //     ),
-    //   ));
-    // }
-    return list;
-  }
-
-  Widget buildPopular(Recipe recipe) {
+  Widget buildPopular(int index) {
     return GestureDetector(
       onTap: () async {
         bool resultFavorite = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Detail(
-              recipe: recipe,
+              recipe: favoriteFood[index],
             ),
           ),
         ) as bool;
-        if (resultFavorite != recipe.isFavorite) {
+        if (resultFavorite != favoriteFood[index].isFavorite) {
           setState(() {
-            recipe.isFavorite = resultFavorite;
+            favoriteFood[index].isFavorite = resultFavorite;
           });
         }
       },
@@ -314,7 +233,8 @@ class _ExploreState extends State<Explore> {
               width: 160,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/image/${recipe.media.image}'),
+                  image: AssetImage(
+                      'assets/image/${favoriteFood[index].media.image}'),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -326,20 +246,23 @@ class _ExploreState extends State<Explore> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    buildRecipeTitle(recipe.title),
-                    buildRecipeSubTitle(recipe.description),
+                    buildRecipeTitle(favoriteFood[index].title),
+                    buildRecipeSubTitle(favoriteFood[index].description),
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildCalories(recipe.nutrition.calorie
+                        buildCalories(favoriteFood[index]
+                                .nutrition
+                                .calorie
                                 .toString()
                                 .replaceAll(regexToRemoveZeroDecimal, '') +
                             'Kcal'),
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              recipe.isFavorite = !recipe.isFavorite;
+                              favoriteFood[index].isFavorite =
+                                  !favoriteFood[index].isFavorite;
                             });
                           },
                           icon: const Icon(
@@ -356,6 +279,77 @@ class _ExploreState extends State<Explore> {
           ],
         ),
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppbar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: const Icon(
+        Icons.sort,
+        color: Colors.black,
+      ),
+      actions: const [
+        Padding(
+          padding: EdgeInsets.only(right: 16),
+          child: Icon(
+            Icons.search,
+            color: Colors.black,
+          ),
+        ),
+      ],
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+    );
+  }
+
+  Widget _buildCategory() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        option('Vegetable', 'assets/icon/salad.png', 0),
+        const SizedBox(
+          width: 8,
+        ),
+        option('Rice', 'assets/icon/rice.png', 1),
+        const SizedBox(
+          width: 8,
+        ),
+        option('Fruit', 'assets/icon/fruit.png', 2),
+      ],
+    );
+  }
+
+  Widget _buildFavorite() {
+    return Column(
+      children: [
+        if (favoriteFood.isNotEmpty)
+          // if (_data.any((recipe) => recipe.isFavorite))
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                buildTextTitleVariation2('Popular', false),
+                const SizedBox(
+                  width: 8,
+                ),
+                buildTextTitleVariation2('Food', true),
+              ],
+            ),
+          ),
+        if (favoriteFood.isNotEmpty)
+          // if (_data.any((recipe) => recipe.isFavorite))
+          SizedBox(
+            height: 190,
+            child: PageView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: favoriteFood.length,
+              itemBuilder: (context, index) {
+                return buildPopular(index);
+              },
+            ),
+          ),
+      ],
     );
   }
 }
