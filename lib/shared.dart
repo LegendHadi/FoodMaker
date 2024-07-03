@@ -73,16 +73,13 @@ Widget buildRecipeTitle(String text) {
 }
 
 Widget buildRecipeSubTitle(String text) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 16),
-    child: Text(
-      text,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 16,
-        color: Colors.grey[400],
-      ),
+  return Text(
+    text,
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      fontSize: 16,
+      color: Colors.grey[400],
     ),
   );
 }
