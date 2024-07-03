@@ -5,13 +5,13 @@ import 'media.dart';
 
 class Recipe {
   final int id;
-  final Media media; //صدا و تصویر
+  final Media media;
   final String title;
   final String description;
-  final List<Ingredient> ingredients; //مواد لازم
-  final Nutrition nutrition; // ارزش غذایی
-  final List<String> instructions; // دستورالعمل تهیه
-  final FoodCategory? category; //دسته بندی
+  final List<Ingredient> ingredients;
+  final Nutrition nutrition;
+  final List<String> instructions;
+  final FoodCategory category;
   late bool isFavorite;
 
   Recipe({
@@ -23,7 +23,6 @@ class Recipe {
     required this.nutrition,
     required this.instructions,
     this.isFavorite = false,
-    // required this.category,
-    this.category,
+    required this.category,
   });
 }

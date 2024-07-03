@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodager/constants.dart';
+import 'package:foodager/models/food_category.dart';
 import 'package:foodager/shared.dart';
 import 'data.dart';
 import 'detail.dart';
@@ -16,11 +17,13 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   List<bool> optionSelected = [true, false, false];
   late List<Recipe> _data;
+  late List<FoodCategory> _categories;
 
   @override
   void initState() {
     super.initState();
     _data = getRecipes();
+    _categories = getCategories();
   }
 
   @override
@@ -73,17 +76,17 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget option(String text, String image, int index) {
+  Widget buildCategoryItem(FoodCategory category) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          optionSelected[index] = !optionSelected[index];
+          category.isSelected = !category.isSelected;
         });
       },
       child: Container(
         height: 40,
         decoration: BoxDecoration(
-          color: optionSelected[index] ? kPrimaryColor : Colors.white,
+          color: category.isSelected ? kPrimaryColor : Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [kBoxShadow],
         ),
@@ -94,18 +97,18 @@ class _ExploreState extends State<Explore> {
               height: 32,
               width: 32,
               child: Image.asset(
-                image,
-                color: optionSelected[index] ? Colors.white : Colors.black,
+                category.image,
+                color: category.isSelected ? Colors.white : Colors.black,
               ),
             ),
             const SizedBox(
               width: 8,
             ),
             Text(
-              text,
+              category.title,
               style: TextStyle(
                 fontSize: 14,
-                color: optionSelected[index] ? Colors.white : Colors.black,
+                color: category.isSelected ? Colors.white : Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -137,7 +140,7 @@ class _ExploreState extends State<Explore> {
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/image/${recipe.media.image}'),
+                      image: AssetImage(recipe.media.image),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -181,6 +184,7 @@ class _ExploreState extends State<Explore> {
     return GestureDetector(
       onTap: () => _navigateToDetail(recipe),
       child: Container(
+        width: 385,
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -195,7 +199,7 @@ class _ExploreState extends State<Explore> {
               width: 160,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/image/${recipe.media.image}'),
+                  image: AssetImage(recipe.media.image),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -262,19 +266,18 @@ class _ExploreState extends State<Explore> {
   }
 
   Widget _buildCategory() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        option('Vegetable', 'assets/icon/salad.png', 0),
-        const SizedBox(
-          width: 8,
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _categories.length,
+        itemBuilder: (context, index) {
+          return buildCategoryItem(_categories[index]);
+        },
+        separatorBuilder: (context, index) => const SizedBox(
+          width: 15,
         ),
-        option('Rice', 'assets/icon/rice.png', 1),
-        const SizedBox(
-          width: 8,
-        ),
-        option('Fruit', 'assets/icon/fruit.png', 2),
-      ],
+      ),
     );
   }
 
@@ -298,7 +301,8 @@ class _ExploreState extends State<Explore> {
         if (favoriteRecipes.isNotEmpty)
           SizedBox(
             height: 190,
-            child: PageView.builder(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemCount: favoriteRecipes.length,
               itemBuilder: (context, index) {

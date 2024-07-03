@@ -48,23 +48,11 @@ class _DetailState extends State<Detail> {
               onPressed: () {
                 setState(() {
                   _isFavorite = !_isFavorite;
-                  // if (widget.favoriteIds
-                  //     .any((favoriteId) => favoriteId == widget.recipe.id)) {
-                  //   widget.favoriteIds.remove(widget.recipe.id);
-                  // } else {
-                  //   widget.favoriteIds.add(widget.recipe.id);
-                  // }
                 });
               },
               icon: Icon(
-                _isFavorite
-                    // widget.favoriteIds.any((element) => element == widget.recipe.id)
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_border,
-                color: _isFavorite
-                    // widget.favoriteIds.any((element) => element == widget.recipe.id)
-                    ? Colors.red
-                    : Colors.black,
+                _isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
+                color: _isFavorite ? Colors.red : Colors.black,
               ),
             ),
           ),
@@ -125,8 +113,7 @@ class _DetailState extends State<Detail> {
                         width: 310,
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                          image: AssetImage(
-                              'assets/image/${widget.recipe.media.image}'),
+                          image: AssetImage(widget.recipe.media.image),
                           fit: BoxFit.fitHeight,
                         )),
                       ),

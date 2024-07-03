@@ -1,3 +1,4 @@
+import 'package:foodager/models/food_category.dart';
 import 'package:foodager/models/ingredient.dart';
 import 'package:foodager/models/media.dart';
 import 'package:foodager/models/nutrition.dart';
@@ -9,7 +10,7 @@ List<Recipe> getRecipes() {
       id: 1,
       media: Media(
         id: 11,
-        image: 'chicken-fried.png',
+        image: 'assets/image/chicken-fried.png',
       ),
       title: 'Chicken Fried Rice',
       description: 'So irresistibly',
@@ -62,10 +63,15 @@ List<Recipe> getRecipes() {
         'Step2\n In a large, heavy saucepan, heat the oil. add the onion, garlic, green chilli, ginger and some seasoning. Fry on a medium heat for 10 mins or until soft.',
         'Step3\n Add the spices with the tomato puree, cook for a further 2 mins until fragrant, then add the stock and marinated chicken. Cook for 15 mins, then add any remaining marinade left in the bowl. Simmer for 5 mins, then sprinkle with the toasted almonds. Serv with rice, naan bread, chutney, coriander and lime wedges, if you like.',
       ],
+      category: FoodCategory(
+        title: 'Vegetable',
+        id: 1,
+        image: 'assets/icon/salad.png',
+      ),
     ),
     Recipe(
       id: 2,
-      media: Media(id: 22, image: 'pasta-bolognese.png'),
+      media: Media(id: 22, image: 'assets/image/pasta-bolognese.png'),
       title: 'Pasta Bolognese',
       description: 'True italian classic with a meaty, chilli sauce',
       ingredients: [
@@ -99,10 +105,15 @@ List<Recipe> getRecipes() {
         'Step2\n dtrdftyghujkp;,mnbfrxryghimnhftrdtgyuik',
         'Step3\n wedrttyvuno,p,mjnhgtryun;omb',
       ],
+      category: FoodCategory(
+        title: 'Vegetable',
+        id: 1,
+        image: 'assets/icon/salad.png',
+      ),
     ),
     Recipe(
       id: 3,
-      media: Media(id: 33, image: 'garlic-potatoes.png'),
+      media: Media(id: 33, image: 'assets/image/garlic-potatoes.png'),
       title: 'Garlic Potatoes',
       description: 'Crispy Garlic Roasted Potatoes',
       ingredients: [
@@ -141,10 +152,15 @@ List<Recipe> getRecipes() {
         'Step2\n jafjoijncnbewjicnuhewicnnwabfeoai',
         'Step3\n jalfjiehfnadncieoijecnija',
       ],
+      category: FoodCategory(
+        title: 'Vegetable',
+        id: 1,
+        image: 'assets/icon/salad.png',
+      ),
     ),
     Recipe(
       id: 4,
-      media: Media(id: 44, image: 'asparagus.png'),
+      media: Media(id: 44, image: 'assets/image/asparagus.png'),
       title: 'Asparagus',
       description: 'White Onion, Fennel, and watercress Salad',
       ingredients: [
@@ -188,10 +204,15 @@ List<Recipe> getRecipes() {
         'Step2\n lfjaofjkheiutuoiuteihj',
         'Step3\n fjaljfiajfklajfeoiajfkljawefijdfa',
       ],
+      category: FoodCategory(
+        title: 'Vegetable',
+        id: 1,
+        image: 'assets/icon/salad.png',
+      ),
     ),
     Recipe(
       id: 5,
-      media: Media(id: 55, image: 'filet mignon.png'),
+      media: Media(id: 55, image: 'assets/image/filet mignon.png'),
       title: 'Filet Mignon',
       description: 'Bacon-Wrapped Filet Mignon',
       ingredients: [
@@ -223,6 +244,31 @@ List<Recipe> getRecipes() {
         'Step2\n aiurwiooejakncbegwehebwaij',
         'Step3\n ;falskjoiuerouwifiuheaijf',
       ],
+      category: FoodCategory(
+        title: 'Vegetable',
+        id: 1,
+        image: 'assets/icon/salad.png',
+      ),
+    ),
+  ];
+}
+
+List<FoodCategory> getCategories() {
+  return [
+    FoodCategory(
+      title: 'Vegetable',
+      id: 1,
+      image: 'assets/icon/salad.png',
+    ),
+    FoodCategory(
+      title: 'Rice',
+      id: 2,
+      image: 'assets/icon/rice.png',
+    ),
+    FoodCategory(
+      title: 'Fruit',
+      id: 3,
+      image: 'assets/icon/fruit.png',
     ),
   ];
 }
