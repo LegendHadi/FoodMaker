@@ -15,7 +15,7 @@ Widget buildTextTitleVariation1(String text) {
   );
 }
 
-Widget buildTextTitleVariation2(String text, bool opacity) {
+Widget buildTextTitleVariation2(String text, {bool opacity = false}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 16),
     child: Text(

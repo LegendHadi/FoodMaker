@@ -6,6 +6,7 @@ import 'package:foodager/shared.dart';
 import 'data.dart';
 import 'detail.dart';
 import 'models/recipe.dart';
+import 'models/texts.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -15,20 +16,20 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  List<bool> optionSelected = [true, false, false];
-  late List<Recipe> _data;
+  late List<Recipe> _recipe;
   late List<FoodCategory> _categories;
+  late Texts _titles;
 
   @override
   void initState() {
     super.initState();
-    _data = getRecipes();
+    _recipe = getRecipes();
     _categories = getCategories();
+    _titles = getTexts();
   }
 
   @override
   Widget build(BuildContext context) {
-    // favoriteFood = _data.where((recipe) => recipe.isFavorite).toList();
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: _buildAppbar(),
@@ -41,9 +42,8 @@ class _ExploreState extends State<Explore> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildTextTitleVariation1('Springy Salads'),
-                  buildTextSubTitleVariation1(
-                      'Healthy and nutritious food recipes'),
+                  buildTextTitleVariation1(_titles.exploreTextTitle),
+                  buildTextSubTitleVariation1(_titles.exploreTextSubTitle),
                   const SizedBox(
                     height: 32,
                   ),
@@ -59,17 +59,16 @@ class _ExploreState extends State<Explore> {
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                // children: showFood(),
-                itemCount: _data.length,
+                itemCount: _recipe.length,
                 itemBuilder: (context, index) {
-                  return buildFood(_data[index], index == 0);
+                  return buildFood(_recipe[index], index == 0, _titles);
                 },
               ),
             ),
             const SizedBox(
               height: 16,
             ),
-            _buildFavorite(),
+            _buildFavorite(_titles),
           ],
         ),
       ),
@@ -118,9 +117,9 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget buildFood(Recipe recipe, bool isFirst) {
+  Widget buildFood(Recipe recipe, bool isFirst, Texts texts) {
     return GestureDetector(
-      onTap: () => _navigateToDetail(recipe),
+      onTap: () => _navigateToDetail(recipe, texts),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -180,9 +179,9 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget buildPopularCard(Recipe recipe) {
+  Widget buildPopularCard(Recipe recipe, Texts texts) {
     return GestureDetector(
-      onTap: () => _navigateToDetail(recipe),
+      onTap: () => _navigateToDetail(recipe, texts),
       child: Container(
         width: 385,
         margin: const EdgeInsets.all(16),
@@ -208,7 +207,6 @@ class _ExploreState extends State<Explore> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     buildRecipeTitle(recipe.title),
@@ -281,8 +279,9 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget _buildFavorite() {
-    final favoriteRecipes = _data.where((recipe) => recipe.isFavorite).toList();
+  Widget _buildFavorite(Texts texts) {
+    final favoriteRecipes =
+        _recipe.where((recipe) => recipe.isFavorite).toList();
     return Column(
       children: [
         if (favoriteRecipes.isNotEmpty)
@@ -290,11 +289,12 @@ class _ExploreState extends State<Explore> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                buildTextTitleVariation2('Popular', false),
+                buildTextTitleVariation2(_titles.explorePopularPart1),
                 const SizedBox(
                   width: 8,
                 ),
-                buildTextTitleVariation2('Food', true),
+                buildTextTitleVariation2(_titles.explorePopularPart2,
+                    opacity: _titles.exploreIsBoldPopularPart2),
               ],
             ),
           ),
@@ -306,7 +306,7 @@ class _ExploreState extends State<Explore> {
               physics: const BouncingScrollPhysics(),
               itemCount: favoriteRecipes.length,
               itemBuilder: (context, index) {
-                return buildPopularCard(favoriteRecipes[index]);
+                return buildPopularCard(favoriteRecipes[index], texts);
               },
             ),
           ),
@@ -314,12 +314,13 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  void _navigateToDetail(Recipe recipe) async {
+  void _navigateToDetail(Recipe recipe, Texts texts) async {
     final isFavorite = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Detail(
           recipe: recipe,
+          texts: texts,
         ),
       ),
     ) as bool;

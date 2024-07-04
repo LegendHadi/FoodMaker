@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'constants.dart';
 import 'models/recipe.dart';
 import 'shared.dart';
+import 'models/texts.dart';
 
 class Detail extends StatefulWidget {
   const Detail({
     required this.recipe,
     Key? key,
+    required this.texts,
   }) : super(key: key);
 
   final Recipe recipe;
+  final Texts texts;
 
   @override
   State<Detail> createState() => _DetailState();
@@ -86,22 +89,28 @@ class _DetailState extends State<Detail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildTextTitleVariation2('Nutritions', false),
+                      buildTextTitleVariation2(widget.texts.detailNutrition),
                       const SizedBox(
                         height: 16,
                       ),
                       buildNutrition(
-                          widget.recipe.nutrition.calorie, 'Calories', 'Kcal'),
+                          widget.recipe.nutrition.calorie,
+                          widget.texts.detailCalory,
+                          widget.texts.detailCaloryType),
                       const SizedBox(
                         height: 16,
                       ),
                       buildNutrition(
-                          widget.recipe.nutrition.carbo, 'Carbo', 'g'),
+                          widget.recipe.nutrition.carbo,
+                          widget.texts.detailCarbo,
+                          widget.texts.detailCarboType),
                       const SizedBox(
                         height: 16,
                       ),
                       buildNutrition(
-                          widget.recipe.nutrition.protein, 'Protein', 'g'),
+                          widget.recipe.nutrition.protein,
+                          widget.texts.detailProtein,
+                          widget.texts.detailProteinType),
                     ],
                   ),
                   Positioned(
@@ -127,7 +136,7 @@ class _DetailState extends State<Detail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildTextTitleVariation2('Ingredients', false),
+                  buildTextTitleVariation2(widget.texts.datailIngredient),
                   ...widget.recipe.ingredients
                       .map((ingredient) => buildTextSubTitleVariation1(
                           '${ingredient.amount.toString().replaceAll(regexToRemoveZeroDecimal, '')} ${ingredient.unit ?? ''} ${ingredient.title}'))
@@ -135,7 +144,7 @@ class _DetailState extends State<Detail> {
                   const SizedBox(
                     height: 16,
                   ),
-                  buildTextTitleVariation2('Recipe preparation', false),
+                  buildTextTitleVariation2(widget.texts.datailPreparation),
                   ...widget.recipe.instructions.map(
                     (instruction) => buildTextSubTitleVariation1(instruction),
                   )

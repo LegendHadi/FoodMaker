@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:foodager/models/food_category.dart';
 import 'package:foodager/models/ingredient.dart';
 import 'package:foodager/models/media.dart';
 import 'package:foodager/models/nutrition.dart';
 import 'models/recipe.dart';
+import 'models/texts.dart';
 
 List<Recipe> getRecipes() {
   return <Recipe>[
@@ -271,4 +273,23 @@ List<FoodCategory> getCategories() {
       image: 'assets/icon/fruit.png',
     ),
   ];
+}
+
+Texts getTexts() {
+  return Texts(
+    exploreTextTitle: 'Springy Salads',
+    exploreTextSubTitle: 'Healthy and nutritious food recipes',
+    explorePopularPart1: 'Popular',
+    explorePopularPart2: 'Food',
+    exploreIsBoldPopularPart2: true,
+    detailNutrition: 'Nutritions',
+    detailCalory: 'Calories',
+    detailCaloryType: 'Kcal',
+    detailCarbo: 'Carbo',
+    detailCarboType: 'g',
+    detailProtein: 'Protein',
+    detailProteinType: 'g',
+    datailIngredient: 'Ingredients',
+    datailPreparation: 'Recipe preparation',
+  );
 }
