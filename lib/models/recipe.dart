@@ -11,7 +11,7 @@ class Recipe {
   final List<Ingredient> ingredients;
   final Nutrition nutrition;
   final List<String> instructions;
-  final FoodCategory category;
+  final int categoryId;
   late bool isFavorite;
 
   Recipe({
@@ -23,6 +23,6 @@ class Recipe {
     required this.nutrition,
     required this.instructions,
     this.isFavorite = false,
-    required this.category,
+    required this.categoryId,
   });
 }

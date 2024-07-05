@@ -75,11 +75,31 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget buildCategoryItem(FoodCategory category) {
+  Widget buildCategoryItem(FoodCategory category, bool isFirst) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          category.isSelected = !category.isSelected;
+          if (isFirst) {
+            category.isSelected = true;
+            for (var i = 0; i < _categories.length; i++) {
+              if (i == 0) {
+                continue;
+              }
+              _categories[i].isSelected = false;
+            }
+            // for (var category in _categories) {
+            //   if (_categories.indexOf(category) != 0) {
+            //     category.isSelected = false;
+            //   }
+            // }
+          } else {
+            category.isSelected = !category.isSelected;
+            if (!_categories.any((c) => c.isSelected)) {
+              _categories.first.isSelected = true;
+            } else {
+              _categories.first.isSelected = false;
+            }
+          }
         });
       },
       child: Container(
@@ -92,17 +112,19 @@ class _ExploreState extends State<Explore> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           children: [
-            SizedBox(
-              height: 32,
-              width: 32,
-              child: Image.asset(
-                category.image,
-                color: category.isSelected ? Colors.white : Colors.black,
+            if (isFirst == false)
+              SizedBox(
+                height: 32,
+                width: 32,
+                child: Image.asset(
+                  category.image!,
+                  color: category.isSelected ? Colors.white : Colors.black,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
+            if (isFirst == false)
+              const SizedBox(
+                width: 8,
+              ),
             Text(
               category.title,
               style: TextStyle(
@@ -270,7 +292,7 @@ class _ExploreState extends State<Explore> {
         scrollDirection: Axis.horizontal,
         itemCount: _categories.length,
         itemBuilder: (context, index) {
-          return buildCategoryItem(_categories[index]);
+          return buildCategoryItem(_categories[index], index == 0);
         },
         separatorBuilder: (context, index) => const SizedBox(
           width: 15,
