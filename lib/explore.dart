@@ -19,6 +19,7 @@ class _ExploreState extends State<Explore> {
   late List<Recipe> _recipe;
   late List<FoodCategory> _categories;
   late Texts _titles;
+  final List<Recipe> _recipesWithSelectedCategory = [];
 
   @override
   void initState() {
@@ -59,9 +60,17 @@ class _ExploreState extends State<Explore> {
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                itemCount: _recipe.length,
+                itemCount: _categories[0].isSelected
+                    ? _recipe.length
+                    : _recipesWithSelectedCategory.length,
                 itemBuilder: (context, index) {
-                  return buildFood(_recipe[index], index == 0, _titles);
+                  return buildFood(
+                    (_categories[0].isSelected
+                        ? _recipe
+                        : _recipesWithSelectedCategory)[index],
+                    index == 0,
+                    _titles,
+                  );
                 },
               ),
             ),
@@ -81,6 +90,7 @@ class _ExploreState extends State<Explore> {
         setState(() {
           if (isFirst) {
             category.isSelected = true;
+            _recipesWithSelectedCategory.clear();
             for (var i = 0; i < _categories.length; i++) {
               if (i == 0) {
                 continue;
@@ -98,6 +108,13 @@ class _ExploreState extends State<Explore> {
               _categories.first.isSelected = true;
             } else {
               _categories.first.isSelected = false;
+            }
+            if (category.isSelected) {
+              _recipesWithSelectedCategory.addAll(
+                  _recipe.where((r) => r.categoryId == category.id).toList());
+            } else {
+              _recipesWithSelectedCategory
+                  .removeWhere((r) => r.categoryId == category.id);
             }
           }
         });
