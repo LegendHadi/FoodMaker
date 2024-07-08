@@ -32,36 +32,7 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context, _isFavorite);
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  _isFavorite = !_isFavorite;
-                });
-              },
-              icon: Icon(
-                _isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
-                color: _isFavorite ? Colors.red : Colors.black,
-              ),
-            ),
-          ),
-        ],
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-      ),
+      appBar: _buildAppbar(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -231,6 +202,40 @@ class _DetailState extends State<Detail> {
           ),
         ],
       ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppbar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.pop(context, _isFavorite);
+        },
+        child: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.black,
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                _isFavorite = !_isFavorite;
+              });
+            },
+            icon: Icon(
+              _isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
+              color: _isFavorite ? Colors.red : Colors.black,
+            ),
+          ),
+        ),
+      ],
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
 }

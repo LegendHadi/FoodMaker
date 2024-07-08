@@ -284,6 +284,7 @@ class _ExploreState extends State<Explore> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       backgroundColor: Colors.transparent,
+      scrolledUnderElevation: 0,
       elevation: 0,
       leading: const Icon(
         Icons.sort,
