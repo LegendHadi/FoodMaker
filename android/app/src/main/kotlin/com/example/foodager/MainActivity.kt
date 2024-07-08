@@ -1,4 +1,4 @@
-package com.example.foodager
+package com.example.FoodMaker
 
 import io.flutter.embedding.android.FlutterActivity
 

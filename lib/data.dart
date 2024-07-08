@@ -1,7 +1,7 @@
-import 'package:foodager/models/food_category.dart';
-import 'package:foodager/models/ingredient.dart';
-import 'package:foodager/models/media.dart';
-import 'package:foodager/models/nutrition.dart';
+import 'package:FoodMaker/models/food_category.dart';
+import 'package:FoodMaker/models/ingredient.dart';
+import 'package:FoodMaker/models/media.dart';
+import 'package:FoodMaker/models/nutrition.dart';
 import 'models/recipe.dart';
 import 'models/texts.dart';
 

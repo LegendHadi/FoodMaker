@@ -1,4 +1,4 @@
-# foodager
+# FoodMaker
 
 A new Flutter project.
 

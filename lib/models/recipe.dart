@@ -1,5 +1,4 @@
-import 'package:foodager/models/food_category.dart';
-import 'package:foodager/models/nutrition.dart';
+import 'package:FoodMaker/models/nutrition.dart';
 import 'ingredient.dart';
 import 'media.dart';
 

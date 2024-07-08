@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodager/constants.dart';
-import 'package:foodager/models/food_category.dart';
-import 'package:foodager/shared.dart';
+import 'package:FoodMaker/constants.dart';
+import 'package:FoodMaker/models/food_category.dart';
+import 'package:FoodMaker/shared.dart';
 import 'data.dart';
 import 'detail.dart';
 import 'models/recipe.dart';
