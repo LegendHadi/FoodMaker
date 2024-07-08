@@ -1,16 +1,7 @@
 # FoodMaker
 
-A new Flutter project.
+An application with various recipes from around the world. There are options to favorite them or filter based on the category. This app suitable for everyone with every taste.
 
-## Getting Started
+## Demo video
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/LegendHadi/FoodMaker/assets/112559565/7bd7c574-3960-4112-b373-37860863865a
